@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 #!python2
 # date : 2019-10-19
-# -*- coding: utf-8 -*-
+# usage : get_rc.py [uid]
 import sys
 import requests
 from bs4 import BeautifulSoup
