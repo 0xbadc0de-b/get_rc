@@ -39,7 +39,9 @@ with requests.Session() as s:
     req = s.post(rc_url, data=solve_info)
     html = req.text
     soup = BeautifulSoup(html, 'html.parser')
-    solveStrings = soup.select('[class=td_font]')
+    # solveStrings = soup.select('[class=td_font]')
+    solveStrings = soup.select('td')
     
     for solvStr in solveStrings:
-        print(solvStr.text.encode('utf-8'))
+        print(solvStr.text)
+        # print(solvStr.text.encode('utf-8'))
