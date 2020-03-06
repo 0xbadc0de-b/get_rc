@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#!python2
+#!python3
 # date : 2019-10-19
 # usage : get_rc.py [uid]
 import sys
@@ -35,6 +35,9 @@ solve_info = {
 }
 solve_info['uid'] = questionNum
 
+fileName = questionNum + '.txt'
+f = open(fileName, 'w', -1, 'utf-8')
+
 with requests.Session() as s:
     req = s.post(rc_url, data=solve_info)
     html = req.text
@@ -43,5 +46,10 @@ with requests.Session() as s:
     solveStrings = soup.select('td')
     
     for solvStr in solveStrings:
-        print(solvStr.text)
+        # print(solvStr.text)
+        f.write(solvStr.text)
         # print(solvStr.text.encode('utf-8'))
+
+f.close()        
+        
+        
