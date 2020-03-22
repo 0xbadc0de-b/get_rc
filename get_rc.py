@@ -55,37 +55,47 @@ def main():
 
     f.close()
     print('[+] Make: ' + fileName)    
+    file_parsing(questionNum)
 
-def file_parsing(fileName):
-    f = open(fileName, 'r', -1, 'utf-8')
+def file_parsing(questionNum):
+    inputFile = questionNum + '.txt'
+    outputFile = questionNum + '_parsing.txt'
+    
+    f = open(inputFile, 'r', -1, 'utf-8')
     lines = f.readlines()
     f.close()
+    
+    f = open(outputFile, 'w', -1, 'utf-8')
     
     lineNum = 0
     parsing_list = []
     for line in lines:
-        lineNum = lineNum + 1
+        lineNum = lineNum + 1        
         line = line.strip()
-        if re.search('^[123][.][A-Z]', line) and line not in parsing_list:
-            print(line)
+        if line in parsing_list:
+            continue
+        if re.search('^[123][.][A-Z]', line):
             parsing_list.append(line)
-        elif re.search('\([ABCD]\) [a-zA-Z]', line) and line not in parsing_list:
-            print(line)
+            f.write(line+'\n')            
+        elif re.search('\([ABCD]\) [a-zA-Z]', line):
             parsing_list.append(line)            
-        elif re.search('해  석$', line) and lines[lineNum] not in parsing_list:
-            print(lines[lineNum])
-            parsing_list.append(lines[lineNum])
-        elif re.search('해  설$', line) and lines[lineNum] not in parsing_list:
-            print(lines[lineNum])
-            parsing_list.append(lines[lineNum])            
-        elif re.search('어  휘$', line) and lines[lineNum] not in parsing_list:
-            print(lines[lineNum])
-            parsing_list.append(lines[lineNum])            
-        elif re.search('정  답$', line) and lines[lineNum] not in parsing_list:
-            print(lines[lineNum])
-            parsing_list.append(lines[lineNum])
+            f.write(line+'\n')
+        elif re.search('해  석$', line) and lines[lineNum].strip() not in parsing_list:
+            parsing_list.append(lines[lineNum].strip())
+            f.write(lines[lineNum].strip()+'\n')
+        elif re.search('해  설$', line) and lines[lineNum].strip() not in parsing_list:
+            parsing_list.append(lines[lineNum].strip())
+            f.write(lines[lineNum].strip()+'\n')
+        elif re.search('어  휘$', line) and lines[lineNum].strip() not in parsing_list:
+            parsing_list.append(lines[lineNum].strip())
+            f.write(lines[lineNum].strip()+'\n')
+        elif re.search('정  답$', line) and lines[lineNum].strip() not in parsing_list:
+            parsing_list.append(lines[lineNum].strip())
+            f.write(lines[lineNum].strip()+'\n')
+    print('[+] Make: ' + outputFile)    
+    f.close()
         
 if __name__=="__main__":
-    # main()
-    fileName = '6589.txt'
-    file_parsing(fileName)
+    main()
+    # fileName = '6610.txt'
+    # file_parsing(fileName)
