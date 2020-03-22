@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 # usage  : get_rc.py [uid]
 # date   : 2019-10-19
-# update : 
+# update : 2020-03-23 (Add) 결과파싱
 import sys
 import re
 import requests
@@ -60,12 +60,14 @@ def main():
 def file_parsing(questionNum):
     inputFile = questionNum + '.txt'
     outputFile = questionNum + '_parsing.txt'
+    qestion_URL = 'https://www.hackers.co.kr/?c=s_toeic/toeic_study/drc&front=dailytoeic&category=RC&uid=' + questionNum + '\n'
     
     f = open(inputFile, 'r', -1, 'utf-8')
     lines = f.readlines()
     f.close()
     
     f = open(outputFile, 'w', -1, 'utf-8')
+    f.write(qestion_URL+'\n')
     
     lineNum = 0
     parsing_list = []
@@ -77,7 +79,7 @@ def file_parsing(questionNum):
         if re.search('^[123][.][A-Z]', line):
             parsing_list.append(line)
             f.write(line+'\n')            
-        elif re.search('\([ABCD]\) [a-zA-Z]', line):
+        elif re.search('^\([ABCD]\) [a-zA-Z]', line):
             parsing_list.append(line)            
             f.write(line+'\n')
         elif re.search('해  석$', line) and lines[lineNum].strip() not in parsing_list:
