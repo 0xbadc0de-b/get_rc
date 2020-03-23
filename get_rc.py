@@ -38,7 +38,7 @@ def main():
     }
     solve_info['uid'] = questionNum
 
-    fileName = questionNum + '.txt'
+    fileName = questionNum + '_RC.txt'
     f = open(fileName, 'w', -1, 'utf-8')
 
     with requests.Session() as s:
@@ -58,8 +58,8 @@ def main():
     file_parsing(questionNum)
 
 def file_parsing(questionNum):
-    inputFile = questionNum + '.txt'
-    outputFile = questionNum + '_parsing.txt'
+    inputFile = questionNum + '_RC.txt'
+    outputFile = questionNum + '_RC_parsing.txt'
     qestion_URL = 'https://www.hackers.co.kr/?c=s_toeic/toeic_study/drc&front=dailytoeic&category=RC&uid=' + questionNum + '\n'
     
     f = open(inputFile, 'r', -1, 'utf-8')
