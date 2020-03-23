@@ -76,7 +76,7 @@ def file_parsing(questionNum):
         line = line.strip()
         if line in parsing_list:
             continue
-        if re.search('^[123][.][A-Z]', line):
+        if re.search('^[123][.][A-Z|-]', line):
             parsing_list.append(line)
             f.write(line+'\n')            
         elif re.search('^\([ABCD]\) [a-zA-Z]', line):
