@@ -3,7 +3,9 @@
 # usage  : get_lc.py [uid]
 # date   : 2020-03-09
 # update : 2020-03-19 Add 'mp3_download'
+# update : 2020-03-25 Add 'file_parsing'
 import sys
+import re
 import requests
 from bs4 import BeautifulSoup
 
@@ -60,6 +62,7 @@ def main():
 
     f.close()
     print('[+] Make: ' + fileName)
+    file_parsing(questionNum)
     mp3_download(fileName)
     
 def mp3_download(fileName):
@@ -77,6 +80,40 @@ def mp3_download(fileName):
                 response = requests.get(url)
                 mp3.write(response.content)
                 print('[+] Down: ' + mp3file)
+
+def file_parsing(questionNum):
+    inputFile = questionNum + '_LC.txt'
+    outputFile = questionNum + '_LC_parsing.txt'
+    qestion_URL = 'https://www.hackers.co.kr/?c=s_toeic/toeic_study/dlc&front=dailytoeic&category=LC&uid=' + questionNum + '\n'
+    
+    f = open(inputFile, 'r', -1, 'utf-8')
+    lines = f.readlines()
+    f.close()
+    
+    f = open(outputFile, 'w', -1, 'utf-8')
+    f.write(qestion_URL+'\n')
+    
+    writeFlag = False
+    
+    for line in lines:
+        line = line.strip()
+        if line == '':
+            continue
+
+        if '영국식 발음' in line:
+            writeFlag = True
+        elif '반복재생' in line:
+            writeFlag = False
+        elif '해  석' in line:
+            writeFlag = True
+        elif '· 총 참여자수' in line:
+            writeFlag = False            
+            
+        if writeFlag == True:
+            f.write(line+'\n')
+
+    print('[+] Make: ' + outputFile)    
+    f.close()
         
 if __name__=="__main__":
     main()
