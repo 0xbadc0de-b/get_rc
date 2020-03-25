@@ -100,7 +100,7 @@ def file_parsing(questionNum):
         if line == '':
             continue
 
-        if '영국식 발음' in line:
+        if '발음 →' in line:
             writeFlag = True
         elif '반복재생' in line:
             writeFlag = False
