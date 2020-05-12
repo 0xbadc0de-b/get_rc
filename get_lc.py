@@ -1,9 +1,10 @@
 #!python3
 # -*- coding: utf-8 -*-
-# usage  : get_lc.py [uid]
-# date   : 2020-03-09
-# update : 2020-03-19 Add 'mp3_download'
-# update : 2020-03-25 Add 'file_parsing'
+# usage : get_lc.py [uid]
+# date  : 2020-03-09
+# update: 2020-03-19 Add 'mp3_download'
+# update: 2020-03-25 Add 'file_parsing'
+# update: 2020-05-12 Mod 'mp3_download'
 import sys
 import re
 import requests
@@ -63,20 +64,18 @@ def main():
     f.close()
     print('[+] Make: ' + fileName)
     file_parsing(questionNum)
-    mp3_download(fileName)
+    mp3_download(html)
     
-def mp3_download(fileName):
-    f = open(fileName, 'r', -1, 'utf-8')
-    lines = f.readlines()
-    f.close()
+def mp3_download(html):
+    p = re.compile(".*file:.*mp3'")
+    lines = p.findall(html)
     
     for line in lines:
-        if "file:" in line:
-            line = line.strip()
-            url = line.split('\'')[1]
-            mp3file = url.split('/')[-1]
+        line = line.strip()
+        url = line.split('\'')[1]
+        mp3file = url.split('/')[-1]
 
-            with open(mp3file, 'wb') as mp3:
+        with open(mp3file, 'wb') as mp3:
                 response = requests.get(url)
                 mp3.write(response.content)
                 print('[+] Down: ' + mp3file)
